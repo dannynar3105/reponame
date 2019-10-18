@@ -1,0 +1,31 @@
+<form action="" method="post" onload="getResults()">
+<input id="image" name="image" type="text"/>
+<input type="text" id="result" value=""/>
+<select id="myselect" name="myselect" ><option selected="selected">blank</option></select>
+</form>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$( document ).ready(function() {
+  $.ajax({
+        url:'http://localhost:5000/list',
+        type:'GET',
+        data: 'q=' + "......",
+        dataType: 'json',
+        success: function( json ) {
+            alert(json);
+            for (let x of json)
+              {
+              console.log(x);
+              $('#myselect').append(`<option value="${x}">                                        ${x} 
+                                  </option>`);
+              }
+
+        },
+     error: function(xhr, textStatus, error) {
+           alert(xhr+error); }
+    });
+});
+
+</script>
