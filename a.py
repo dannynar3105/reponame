@@ -1,13 +1,17 @@
 import docker
-from flask import Flask,request, jsonify
+from flask import Flask,request,render_template,jsonify
 import requests, json
 import docker
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='.')
 url = "http://0.0.0.0:5000"
 CORS(app)
 cors=CORS(app,resources={r"/api/*": {"origins": "*"}})
+
+@app.route('/login')
+def login():
+  return render_template('a.html')
 
 @app.route('/list/', methods=['GET','POST'])
 def Images(vent=False):
