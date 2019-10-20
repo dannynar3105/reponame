@@ -1,25 +1,29 @@
 <form action="" method="post" onload="getResults()">
 <input id="image" name="image" type="text"/>
 <input type="text" id="result" value=""/>
-<select id="myselect" name="myselect" ><option selected="selected">blank</option></select>
+<select id="myselect" name="myselect">
+      <option selected=true>custom</option>
+</select>
+<button onclick="getImage()"> VIEW </button>
+<textarea id="txtjson" name="txtjson" rows="20" cols="100" style="display: none;" class="textboxmulti">
+     placeholder for Image.</textarea>
 </form>
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 $( document ).ready(function() {
+  txtjson=    
   $.ajax({
         url:'http://localhost:5000/list',
         type:'GET',
-        data: 'q=' + "......",
         dataType: 'json',
         success: function( json ) {
             alert(json);
             for (let x of json)
               {
               console.log(x);
-              $('#myselect').append(`<option value="${x}">                                        ${x} 
-                                  </option>`);
+              $('#myselect').append(`<option value=${x}>${x}</option>`);
               }
 
         },
@@ -28,4 +32,32 @@ $( document ).ready(function() {
     });
 });
 
+$("#myselect").change(function() {
+ $("#txtjson").val("");
+   id= $(this).val();
+  console.log("selected is : "+id);
+  jsondata ={
+        'image': id 
+  };
+  jsondata=JSON.stringify(jsondata).replace("\"","\''")
+  console.log(jsondata);
+  $.ajax({
+        url:'http://localhost:5000/search/?image=',
+        type:'POST',
+        data: jsondata,
+        dataType: 'json',
+        success: function(result) {
+            
+            xdata=JSON.stringify(result);
+            $("#txtjson").val(xdata);
+            $("#txtjson").css('display','block');
+
+          
+            
+        },
+     error: function(xhr, textStatus, error) {
+           alert("error at "+xhr+error); }
+    });
+
+});
 </script>
