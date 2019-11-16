@@ -1,6 +1,6 @@
 import pymysql
 import mysql.connector
-import requests
+#import requests
 from flask import Flask,request,render_template,jsonify
 import requests, json
 from db_config import mysql
